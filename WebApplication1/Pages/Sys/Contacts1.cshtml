@@ -1,0 +1,30 @@
+﻿@page
+@model WebApplication1.Pages.Sys.Contacts1Modal
+@{
+    ViewData["Title"] = "Контакты";
+	Layout = "~/Pages/Shared/_Layout1.cshtml";
+}
+<h3 style="margin-top:50px;text-align:center;">@ViewData["Title"]</h3>
+<h4 style="margin-top:50px;text-align:center;">Связь с нами в соц. сетях</h4>
+
+<div style="margin-top:50px;text-align:center">
+	<!-- First link is not for use -->
+	<a style="display:none" href="https://www.youtube.com/channel/UCVsAvejoPEBVm8b476-QsnA?view_as=subscriber">
+		<img class="round contacts rotate" src="~/img/youtube-icon.png" title="Youtube" />
+	</a> 
+	<a href="https://www.youtube.com/channel/UCVsAvejoPEBVm8b476-QsnA?view_as=subscriber">
+		<img class="round contacts rotate" src="~/img/youtube-icon.png" title="Youtube" />
+	</a>
+	<a href="https://www.facebook.com/profile.php?id=100010252206008">
+		<img class="round contacts rotate" src="~/img/facebook-icon.png" title="Facebook" />
+	</a>
+	<a href="https://join.skype.com/invite/jXhVNXuBEumH">
+		<img class="round contacts rotate" src="~/img/skype-icon.png" title="Skype" />
+	</a>
+	<a href="https://t.me/+380500738929">
+		<img class="round contacts rotate" src="~/img/telegram-icon.png" title="Telegram" />
+	</a>
+	<a href="mailto:utos.vovik@gmail.com">
+		<img class="round contacts rotate" src="~/img/email-icon.png" title="E-mail" />
+	</a>
+</div>

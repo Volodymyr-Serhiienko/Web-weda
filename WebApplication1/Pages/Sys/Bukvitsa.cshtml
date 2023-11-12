@@ -1,0 +1,68 @@
+﻿@page
+@model WebApplication1.Pages.Sys.BukvitsaModel
+@{
+    ViewData["Title"] = "БȢкъвица";
+    Layout = "~/Pages/Shared/_Layout1.cshtml";
+}
+
+<h3>Дрєвлєсловєнская БȢкъвица</h3>
+
+<div class="view">
+    <aside style="float:left; margin-right:50px; margin-top: 30px; padding-left: 20px; padding-right: 20px;">
+        <img id="bukvitsa" src="~/img/bukvitsa.jpg" usemap="#Navigation" width="300" height="300" />
+        <p>
+            <map name="Navigation">
+                @for(int i = 0; i < 49; i++)
+                {
+                    <area shape="rect" onclick="$('#text').html('@Model.Letters[i]');" href="#" alt="#">
+                }
+            </map>
+        </p>
+    </aside>
+
+    <div>
+        <h4 style="text-align:center; margin-top:25px;"><b>Глубинные Образы</b></h4>
+        <p id="text" style="margin-top:20px">@Html.Raw(Model.Letters[0])</p>
+    </div>
+</div>
+
+<script>
+    window.onload = function() {
+        // Определение размеров изображения
+        var elem = document.getElementById("bukvitsa");
+        if (window.screen.width < 768) {
+            var size = window.innerWidth - 80;
+            elem.width = size;
+            elem.height = size;
+        }
+        else {
+            var size = window.innerHeight - 400;
+            elem.height = size;
+            elem.width = size;
+        }
+
+        var size = elem.width;
+        // Длина ячейки
+        var l = size/7.9;
+        // Промежуток
+        var g = size/70;
+
+        // Разбивка на области
+        var x1, y1, x2, y2;
+        var arr = document.getElementsByTagName("area");
+        let colCount = 0;
+        let rowCount = 0;
+        for(let i = 0; i < arr.length; i++){
+            y1 = g*(rowCount+1) + l*rowCount;
+            y2 = y1 + l;
+            x1 = g*(colCount+1) + l*colCount;
+            x2 = x1 + l;
+            arr[i].coords = `${x1},${y1},${x2},${y2}`;
+            colCount++;
+            if (colCount == 7) {
+                colCount = 0;
+                rowCount++;
+            }
+        }
+    }
+</script>

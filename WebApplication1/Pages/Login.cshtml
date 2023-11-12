@@ -1,0 +1,33 @@
+﻿@page
+@model WebApplication1.Pages.LoginModel
+@{
+    ViewData["Title"] = "Вход";
+}
+
+<h3 style="text-align:center; margin-top:50px;">Рады вас приветствовать!</h3>
+<h2 style="color:red">@Model.Message</h2>
+
+<form id="login" class="login" method="post">
+    <input type="hidden" id="token" name="token" />
+    <fieldset class="fieldset">
+    <pre><span class="required"><b>E-mail</b></span>  <input type="email" placeholder="user@gmail.com" name="email" pattern="^[a-zA-Z0-9_.+-]+@@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$" autofocus required><br>
+<span class="required"><b>Пароль</b></span>  <input type="password" name="password" size="20" required><br>
+         <input type="submit" value=" Войти "><br>
+    <a asp-area="" asp-page="/Register">Еще не зарегистрированы?</a>
+    <a asp-area="" asp-page="/ForgotPassword">Забыли пароль?</a></pre>
+    </fieldset>
+</form>
+
+<script src=""></script>
+<script>
+    function onClick(e) {
+        e.preventDefault();
+        grecaptcha.ready(function () {
+            grecaptcha.execute('', { action: 'submit' }).then(function (token) {
+                document.getElementById('token').value = token;
+                document.getElementById('login').submit();
+            });
+        });
+    }
+    document.getElementById('login').addEventListener('submit', onClick);
+</script>

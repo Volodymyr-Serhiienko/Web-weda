@@ -1,0 +1,48 @@
+﻿@page
+@model WebApplication1.Pages.Sys.DayinfoModel
+@{
+    ViewData["Title"] = "Информация дня";
+    Layout = "~/Pages/Shared/_Layout1.cshtml";
+}
+
+<h3 style="color:burlywood; margin-top: 20px;">
+    Здравия @Model.Person.Firstname @Model.Person.Lastname!
+    <br />
+</h3>
+
+<div class="view">
+	<aside class="sidebar1">
+		@if (HttpContext.Session.GetString("email") == "utos.vovik@gmail.com")
+		{
+			<h5 style="text-align:center;"><a style="color:greenyellow;" asp-area="" asp-page="/Sys/Adm/Admin">Админ. панель</a></h5>
+		}
+		
+		<nav style="margin-top: 10px;">
+		    <ul class="sidebar-list">
+				<li><a asp-area="" asp-page="/Sys/DayCosmo">Космограмма дня</a></li>
+				<li><a asp-area="" asp-page="/Sys/MyCosmo">Моя космограмма</a></li>
+				<hr />
+				<li><a asp-area="" asp-page="/Sys/NumCalc">Калькулятор чисел</a></li>
+				<li><a asp-area="" asp-page="/Sys/Bukvitsa">БȢкъвица</a></li>
+		    </ul>
+	    </nav>
+	</aside>
+	
+	<main>
+		<br />
+		<p>
+            <b>Дата Вашего Рождения:</b> @Model.Person.DateInfo.Slav.ToString()
+		</p>
+		<p>
+			<b>ЛѢто в Круге Жизни:</b> @Model.Person.DateInfo.Slav.Year144
+			<br />
+			<b>ЛѢто в Круге ЛѢтъ:</b> @Model.Person.DateInfo.Slav.Year16
+		</p>
+		<p>
+			<b>Число Жизни:</b> @Model.Person.LifeNum
+			<br />
+			<b>Обережное Число Жизни:</b> @Model.Person.GuardNum
+		</p>
+		
+    </main>
+</div>

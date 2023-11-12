@@ -1,0 +1,66 @@
+﻿@page
+@model WebApplication1.Pages.RegisterModel
+@{
+    ViewData["Title"] = "Регистрация";
+}
+
+<h3 style="text-align:center; margin-top:50px;">Введите Ваши данные!</h3>
+<h2 style="color:red">@Model.Message</h2>
+    
+<form id="Myform" class="register" method="post">
+    <input type="hidden" id="token" name="token" />
+    <input id="utc" type="hidden" name="utc" value="" />
+    <fieldset class="fieldset">
+        <pre><span class="required"><b>E-mail</b></span>       <input type="email" placeholder="user@gmail.com" name="email" pattern="[\w]+.{0,1}[\w]+@@[\w]+.[\w]+" autofocus required /><br /> 
+<span class="required"><b>Пароль</b></span>       <input type="password" name="password" maxlength="20" size="20" required /><br />
+<span class="required"><b>Имя</b></span>          <input type="text" name="firstname" maxlength="25" size="20" required /><br /> <!--pattern="[a-zA-Zа-яА-Я]+"-->
+<span class="required"><b>Фамилия</b></span>      <input type="text" name="lastname" maxlength="25" size="20" required /><br />
+<span class="required"><b>Дата рождения</b></span><input type="datetime-local" name="datetime" required><hr />
+<b>Если вы родились не там,<br />где находитесь сейчас, или используете<br />VPN - поставьте галочку, укажите пояс<br />и летнее/зимнее время:<br />
+<input type="checkbox" id="otheplace" /> <b>Час. пояс</b>  <select id="cities" style="width:175px" onchange=""></select><br />
+<b>Время</b> <input type="radio" name="radio" value="0" checked /><b>Летнее</b> <input type="radio" name="radio" value="1" /><b>Зимнее</b><br />
+             <input type="submit" value=" Сохранить " /></pre>
+    </fieldset>
+</form>
+
+<script src="~/js/moment.js"></script>
+<script src="~/js/moment_timezone.js"></script>
+<script src=""></script>
+<script>
+    // Заполняем выпадающий список с населенными пунктами
+    var citiesSelect = document.getElementById("cities");
+    var timezones = moment.tz.names();
+    for (var i = 0; i < timezones.length; i++) {
+        var option = document.createElement("option");
+        option.text = moment.tz(timezones[i]).tz(timezones[i]).format('Z') + " " + moment.tz.zone(timezones[i]).name;
+        option.value = i;
+        citiesSelect.appendChild(option);
+    }
+    function onClick(e) {
+        e.preventDefault();
+        grecaptcha.ready(function () {
+            grecaptcha.execute('', { action: 'signup' }).then(function (token) {
+                document.getElementById('token').value = token;
+
+                // Получение смещения пояса
+                var dateControl = document.querySelector('input[type="datetime-local"]');
+                var birthDate = new Date(dateControl.value.substring(0, 10));
+                var utc = -birthDate.getTimezoneOffset() / 60;
+                $('#utc').val(utc);
+
+                // Установка смещения вручную
+                if ($('#otheplace').is(":checked")) {
+                    var selectedCityIndex = citiesSelect.selectedIndex;
+                    var selectedCityValue = citiesSelect.options[selectedCityIndex].value;
+                    var timezone = timezones[selectedCityValue];
+                    var offset = Number(moment.tz(timezone).format('Z').substring(0, 3));
+                    const selected = document.querySelector('input[name="radio"]:checked').value;
+                    offset -= Number(selected);
+                    $('#utc').val(offset);
+                }
+                document.getElementById('Myform').submit();
+            });
+        });
+    }
+    document.getElementById('Myform').addEventListener('submit', onClick);
+</script>

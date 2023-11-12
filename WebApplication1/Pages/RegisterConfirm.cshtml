@@ -1,0 +1,15 @@
+﻿@page
+@model WebApplication1.Pages.RegisterConfirmModel
+@{
+    ViewData["Title"] = "Регистрация";
+}
+
+<h3 style="text-align:center; margin-top:50px;">Введите код подтверждения, который пришел Вам в электронном письме!</h3>
+<h2 style="color:red">@Model.Message</h2>
+
+<form id="login" class="login" method="post">
+    <fieldset class="fieldset" style="width:250px;">
+        <pre><span class="required"><b>Код</b></span>  <input type="text" name="code" autofocus required><br>
+        <input type="submit" value=" Отправить "></pre>
+    </fieldset>
+</form>

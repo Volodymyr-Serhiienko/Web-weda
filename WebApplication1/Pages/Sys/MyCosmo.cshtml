@@ -1,0 +1,286 @@
+﻿@page
+@model WebApplication1.Pages.Sys.MyCosmoModel
+@{
+    ViewData["Title"] = "Моя космограмма";
+    Layout = "~/Pages/Shared/_Layout1.cshtml";
+}
+
+<header>
+    <h3 style="color:burlywood; text-align:center">
+        <b>Космограмма Дня Вашего Рождения</b>
+    </h3>
+    <br />
+</header>
+
+<section style="float:left; margin-right:40px; margin-bottom:20px;">
+    <form style="display:inline" name = "choice">
+        <input type="radio" name="cosmo" checked="checked" value="HelioGeo" /><span>Совместно &nbsp;&nbsp;&nbsp;&nbsp;</span>
+        <input type="radio" name="cosmo" value="Helio" /><span>Гелиоцентр &nbsp;&nbsp;&nbsp;&nbsp;</span>
+        <input type="radio" name="cosmo" value="Geo" /><span>Геоцентр</span>
+    </form><br /><br />
+    <canvas id="drawingCanvas" style="display:block" width="460" height="460"></canvas>
+</section>
+
+<section>
+    <br /><br />
+    <div class="divspace">
+        <h5><b>Степень влияния Стихий</b></h5>
+        <p>
+            @Model?.person?.ShowSpheres()
+        </p>
+    </div>
+    <div class="divspace">
+        <h5><b>Степень влияния Чертогов</b></h5>
+        <p>
+            @Model?.person?.ShowChertogs()
+        </p>
+    </div>
+    <div class="divspace">
+        <h5><b>Степень влияния Залов</b></h5>
+        <p>
+            @Model?.person?.ShowHalls()
+        </p>
+    </div>
+    <div class="divspace">
+        <h5><b>Степень влияния Зодиакальных созвездий</b></h5>
+        <p>
+            @Model?.person?.ShowZodiacs()
+        </p>
+    </div>
+    <br />
+</section>
+
+@{
+    var person = Model!.person;
+    var info = Model!.person.PlanetInfo;
+}
+
+<section>
+    <h4 style="color:burlywood; text-align:center">
+        <b>Информация по каждой Земле (Планете)</b>
+    </h4>
+    <div class="divspace">
+        <h5><b><span class="planet">&#9737;</span> Ярило (Солнце)</b></h5>
+        <p>
+            @person.ShowHelioInfo(info.Sun)
+        </p>
+    </div>
+    <div class="divspace">
+        <h5><b><span class="planet">&#8853;</span> Мидгард (Земля)</b></h5>
+        <p>
+            @person.ShowHelioInfo(info.Earth)
+        </p>
+    </div>
+    <div class="divspace">
+        <h5><b><span class="planet">&#9790;</span> Месяц (Луна)</b></h5>
+        <p>
+            @person.ShowHelioInfo(info.Moon)
+        </p>
+    </div>
+    <div class="divspace">
+        <h5><b><span class="planet">&#9791;</span> Земля Хорса (Меркурий)</b></h5>
+        <p>
+            <b>Гелиоцентр: &nbsp;</b>@person.ShowHelioInfo(info.Mercury)<br />
+            <b>Геоцентр:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</b>@person.ShowGeoInfo(info.Mercury)
+        </p>
+    </div>
+    <div class="divspace">
+        <h5><b><span class="planet">&#9792</span> Земля Зари-Мерцаны (Венера)</b></h5>
+        <p>
+            <b>Гелиоцентр: &nbsp;</b>@person.ShowHelioInfo(info.Venus)<br />
+            <b>Геоцентр:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</b>@person.ShowGeoInfo(info.Venus)
+        </p>
+    </div>
+    <div class="divspace">
+        <h5><b><span class="planet">&#9794;</span> Земля Орея (Марс)</b></h5>
+        <p>
+            <b>Гелиоцентр: &nbsp;</b>@person.ShowHelioInfo(info.Mars)<br />
+            <b>Геоцентр:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</b>@person.ShowGeoInfo(info.Mars)
+        </p>
+    </div>
+    <div class="divspace">
+        <h5><b><span class="planet">&#9795;</span> Земля Перуна (Юпитер)</b></h5>
+        <p>
+            <b>Гелиоцентр: &nbsp;</b>@person.ShowHelioInfo(info.Jupiter)<br />
+            <b>Геоцентр:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</b>@person.ShowGeoInfo(info.Jupiter)
+        </p>
+    </div>
+    <div class="divspace">
+        <h5><b><span class="planet">&#9796;</span> Земля Стрибога (Сатурн)</b></h5>
+        <p>
+            <b>Гелиоцентр: &nbsp;</b>@person.ShowHelioInfo(info.Saturn)<br />
+            <b>Геоцентр:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</b>@person.ShowGeoInfo(info.Saturn)
+        </p>
+    </div>
+    <div class="divspace">
+        <h5><b><span class="planet">&#9797;</span> Земля Варуны (Уран)</b></h5>
+        <p>
+            <b>Гелиоцентр: &nbsp;</b>@person.ShowHelioInfo(info.Uranus)<br />
+            <b>Геоцентр:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</b>@person.ShowGeoInfo(info.Uranus)
+        </p>
+    </div>
+    <div class="divspace">
+        <h5><b><span class="planet">&#9798;</span> Земля Ния (Нептун)</b></h5>
+        <p>
+            <b>Гелиоцентр: &nbsp;</b>@person.ShowHelioInfo(info.Neptune)<br />
+            <b>Геоцентр:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</b>@person.ShowGeoInfo(info.Neptune)
+        </p>
+    </div>
+    <div class="divspace">
+        <h5><b><span class="planet">&#11219;</span> Земля Вия (Плутон)</b></h5>
+        <p>
+            <b>Гелиоцентр: &nbsp;</b>@person.ShowHelioInfo(info.Pluto)<br />
+            <b>Геоцентр:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</b>@person.ShowGeoInfo(info.Pluto)
+        </p>
+    </div>
+</section>
+
+<script>
+    var canvas = document.getElementById("drawingCanvas");
+    var context = canvas.getContext("2d");
+
+    // Корректировка канваса
+    if (window.screen.width < 768) {
+        var size = window.innerWidth - 140;
+        canvas.width = size + 20;
+        canvas.height = size + 20;
+        context.scale(size / 460, size / 460);
+    }
+
+    // Загрузка изображений
+    const images = [
+        { name: "img", src: "../img/cosmo/cosmo.jpg" },
+        { name: "HelioGeoImg", src: "../img/galaxy.png" },
+        { name: "HelioImg", src: "../img/cosmo/Helio.jpg" },
+        { name: "GeoImg", src: "../img/cosmo/Geo.jpg" },
+        { name: "sunImg", src: "../img/cosmo/sun.bmp" },
+        { name: "earthImg", src: "../img/cosmo/earth.bmp" },
+        { name: "moonImg", src: "../img/cosmo/moon.bmp" },
+        { name: "mercuryImg", src: "../img/cosmo/mercury.bmp" },
+        { name: "venusImg", src: "../img/cosmo/venus.bmp" },
+        { name: "marsImg", src: "../img/cosmo/mars.bmp" },
+        { name: "jupiterImg", src: "../img/cosmo/jupiter.bmp" },
+        { name: "saturnImg", src: "../img/cosmo/saturn.bmp" },
+        { name: "uranusImg", src: "../img/cosmo/uranus.bmp" },
+        { name: "neptuneImg", src: "../img/cosmo/neptune.bmp" },
+        { name: "plutoImg", src: "../img/cosmo/pluto.bmp" }
+    ];
+
+    var loadedImages = 0;
+
+    function loadImages(callback) {
+        for (var i = 0; i < images.length; i++) {
+            var img = new Image();
+            img.onload = function () {
+                loadedImages++;
+                if (loadedImages === images.length) {
+                    callback();
+                }
+            };
+            img.src = images[i].src;
+            window[images[i].name] = img;
+        }
+    }
+
+    loadImages(function () {
+        ShowHelioGeo();
+
+        // Обработка переключателей
+        for (var i = 0; i < choice.cosmo.length; i++) {
+            choice.cosmo[i].addEventListener("click", onclick);
+        }
+
+        function onclick() {
+            if (choice.cosmo[0].checked) {
+                context.clearRect(0, 0, canvas.width, canvas.height);
+                ShowHelioGeo();
+            } else if (choice.cosmo[1].checked) {
+                context.clearRect(0, 0, canvas.width, canvas.height);
+                ShowHelio();
+            } else {
+                context.clearRect(0, 0, canvas.width, canvas.height);
+                ShowGeo();
+            }
+        }
+    });
+
+    // Определение координат планет
+    @{
+        var Coords = (double n) => Model!.person.ShowPosition(n);
+        var coord = Model!.person.Coords;
+
+        var sun = Coords(coord.Sun);
+        var earth = Coords(coord.Earth);
+        var moon = Coords(coord.Moon);
+        var mercuryHelio = Coords(coord.Mercury.Helio);
+        var mercuryGeo = Coords(coord.Mercury.Geo);
+        var venusHelio = Coords(coord.Venus.Helio);
+        var venusGeo = Coords(coord.Venus.Geo);
+        var marsHelio = Coords(coord.Mars.Helio);
+        var marsGeo = Coords(coord.Mars.Geo);
+        var jupiterHelio = Coords(coord.Jupiter.Helio);
+        var jupiterGeo = Coords(coord.Jupiter.Geo);
+        var saturnHelio = Coords(coord.Saturn.Helio);
+        var saturnGeo = Coords(coord.Saturn.Geo);
+        var uranusHelio = Coords(coord.Uranus.Helio);
+        var uranusGeo = Coords(coord.Uranus.Geo);
+        var neptuneHelio = Coords(coord.Neptune.Helio);
+        var neptuneGeo = Coords(coord.Neptune.Geo);
+        var plutoHelio = Coords(coord.Pluto.Helio);
+        var plutoGeo = Coords(coord.Pluto.Geo);
+    }
+    
+    function ShowHelioGeo() {
+            context.drawImage(img, 0, 0, 460, 460);
+            context.drawImage(HelioGeoImg, 130, 130, 200, 200);
+            context.drawImage(plutoImg, @plutoGeo.Item1, @plutoGeo.Item2, 15, 15);
+            context.drawImage(plutoImg, @plutoHelio.Item1, @plutoHelio.Item2, 15, 15);
+            context.drawImage(neptuneImg, @neptuneGeo.Item1, @neptuneGeo.Item2, 15, 15);
+            context.drawImage(neptuneImg, @neptuneHelio.Item1, @neptuneHelio.Item2, 15, 15);
+            context.drawImage(uranusImg, @uranusGeo.Item1, @uranusGeo.Item2, 15, 15);
+            context.drawImage(uranusImg, @uranusHelio.Item1, @uranusHelio.Item2, 15, 15);
+            context.drawImage(saturnImg, @saturnGeo.Item1, @saturnGeo.Item2, 15, 15);
+            context.drawImage(saturnImg, @saturnHelio.Item1, @saturnHelio.Item2, 15, 15);
+            context.drawImage(jupiterImg, @jupiterGeo.Item1, @jupiterGeo.Item2, 15, 15);
+            context.drawImage(jupiterImg, @jupiterHelio.Item1, @jupiterHelio.Item2, 15, 15);
+            context.drawImage(marsImg, @marsGeo.Item1, @marsGeo.Item2, 15, 15);
+            context.drawImage(marsImg, @marsHelio.Item1, @marsHelio.Item2, 15, 15);
+            context.drawImage(venusImg, @venusGeo.Item1, @venusGeo.Item2, 15, 15);
+            context.drawImage(venusImg, @venusHelio.Item1, @venusHelio.Item2, 15, 15);
+            context.drawImage(mercuryImg, @mercuryGeo.Item1, @mercuryGeo.Item2, 15, 15);
+            context.drawImage(mercuryImg, @mercuryHelio.Item1, @mercuryHelio.Item2, 15, 15);
+            context.drawImage(moonImg, @moon.Item1, @moon.Item2, 15, 15);
+            context.drawImage(earthImg, @earth.Item1, @earth.Item2, 15, 15);
+            context.drawImage(sunImg, @sun.Item1, @sun.Item2, 15, 15);
+    }
+
+    function ShowHelio() {
+        context.drawImage(img, 0, 0, 460, 460);
+        context.drawImage(HelioImg, 130, 130, 200, 200);
+        context.drawImage(plutoImg, @plutoHelio.Item1, @plutoHelio.Item2, 15, 15);
+        context.drawImage(neptuneImg, @neptuneHelio.Item1, @neptuneHelio.Item2, 15, 15);
+        context.drawImage(uranusImg, @uranusHelio.Item1, @uranusHelio.Item2, 15, 15);
+        context.drawImage(saturnImg, @saturnHelio.Item1, @saturnHelio.Item2, 15, 15);
+        context.drawImage(jupiterImg, @jupiterHelio.Item1, @jupiterHelio.Item2, 15, 15);
+        context.drawImage(marsImg, @marsHelio.Item1, @marsHelio.Item2, 15, 15);
+        context.drawImage(venusImg, @venusHelio.Item1, @venusHelio.Item2, 15, 15);
+        context.drawImage(mercuryImg, @mercuryHelio.Item1, @mercuryHelio.Item2, 15, 15);
+        context.drawImage(moonImg, @moon.Item1, @moon.Item2, 15, 15);
+        context.drawImage(earthImg, @earth.Item1, @earth.Item2, 15, 15);
+    }
+
+    function ShowGeo() {
+        context.drawImage(img, 0, 0, 460, 460);
+        context.drawImage(GeoImg, 130, 130, 200, 200);
+        context.drawImage(plutoImg, @plutoGeo.Item1, @plutoGeo.Item2, 15, 15);
+        context.drawImage(neptuneImg, @neptuneGeo.Item1, @neptuneGeo.Item2, 15, 15);
+        context.drawImage(uranusImg, @uranusGeo.Item1, @uranusGeo.Item2, 15, 15);
+        context.drawImage(saturnImg, @saturnGeo.Item1, @saturnGeo.Item2, 15, 15);
+        context.drawImage(jupiterImg, @jupiterGeo.Item1, @jupiterGeo.Item2, 15, 15);
+        context.drawImage(marsImg, @marsGeo.Item1, @marsGeo.Item2, 15, 15);
+        context.drawImage(venusImg, @venusGeo.Item1, @venusGeo.Item2, 15, 15);
+        context.drawImage(mercuryImg, @mercuryGeo.Item1, @mercuryGeo.Item2, 15, 15);
+        context.drawImage(moonImg, @moon.Item1, @moon.Item2, 15, 15);
+        context.drawImage(sunImg, @sun.Item1, @sun.Item2, 15, 15);
+    }
+</script>

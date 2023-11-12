@@ -1,0 +1,225 @@
+﻿<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - Web Weda</title>
+    <link rel="icon" type="image/x-icon" href="~/img/favicon.ico">
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/WebApplication1.styles.css" asp-append-version="true" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap" rel="stylesheet" />
+</head>
+<body>
+    <header>
+        <nav id="menu" class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3" style="position:fixed; width:100%; top:0; transition: top 0.3s;">
+            <div class="container">
+                <a class="navbar-brand" asp-area="" asp-page="#"><img src="~/img/favicon.ico" height="30" width="30" /> Web Weda</a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
+                        aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
+                    <ul class="navbar-nav flex-grow-1">
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" asp-area="" asp-page="/Sys/Dayinfo">Главная</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" asp-area="" asp-page="/Sys/ProfileEdit">Редактировать Профиль</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" asp-area="" asp-page="/Sys/Contacts1">Контакты</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" asp-area="" asp-page="#">Помощь</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" asp-area="" asp-page="/Index"><span style="color:crimson">&#128546;Выйти</span></a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+    </header>
+    
+    <header style="margin-top:70px">
+        <div>
+            <img class="small" src="~/img/header1.png" align="right" />
+            <img class="small" src="~/img/header1.png" align="left" />
+            <img class="hide" src="~/img/header2.png" align="right" width="150" />
+            <img class="hide" src="~/img/header2.png" align="left" width="150" />
+            <h1 class="space">ВѣдическаѦ МȢдрость Прєдковъ</h1>
+        </div>
+        <h2 class="space">Вѣкъ живи - Вѣкъ учись...</h2>
+    </header>
+
+    <div id="time" class="time"></div>
+    <h3 id="geo" class="geo"></h3>
+
+    <div class="space1">
+        <!-- container -->
+        <main role="main" class="pb-3">
+            @RenderBody()
+        </main>
+    </div>
+
+    <footer class="border-top footer text-muted">
+        <div class="container">
+            © 7532 С.М.З.Х. Владимѣръ Сергієнко
+        </div>
+    </footer>
+
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+    <script src="~/js/suncalc.js"></script>
+    <script src="~/js/menu_hide.js"></script>
+
+    <script>
+        let mylat, mylon, correctUTC;
+
+        if (!sessionStorage.getItem('counter')){
+            sessionStorage.setItem('counter', '0');
+        
+            if (navigator.geolocation) {
+                var options = {
+                    enableHighAccuracy: true,
+                    timeout: 5000000,
+                    maximumAge: 0
+                }
+                function success(pos) {
+                    // Получение широты, долготы, коррекции времени
+                    mylat = pos.coords.latitude;
+                    mylon = pos.coords.longitude;
+                    let control = new Date("2021-01-01");
+                    let todayUTC = new Date().getTimezoneOffset();
+                    let controlUTC = control.getTimezoneOffset();
+                    correctUTC = (todayUTC - controlUTC) / 60;
+                    // Сщхранение в сессию
+                    sessionStorage.setItem('mylat', String(mylat));
+                    sessionStorage.setItem('mylon', String(mylon));
+                    sessionStorage.setItem('correctUTC', String(correctUTC));
+                    // Получение смещения час.пояса
+                    var TimeZoneOffset = new Date().getTimezoneOffset() / 60;
+
+                    // Передача данных на сервер
+                    const data = {
+                        variable1: String(mylat),
+                        variable2: String(mylon),
+                        variable3: String(TimeZoneOffset)
+                    };
+                    fetch('/LocationController/Location', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify(data)
+                    }).then(response => {
+                        if (response.ok) {
+                            //console.log('Данные успешно отправлены на сервер.');
+                        } else {
+                            //console.error('Ошибка при отправке данных на сервер.');
+                        }
+                    }).catch(error => {
+                        //console.error('Произошла ошибка:', error);
+                    });
+                }
+                function error(err) {
+                    $('#geo').text('!!!НЕТ ВАШИХ ГЕОДАННЫХ. БЕЗ НИХ НЕ БУДУТ РАБОТАТЬ СЛАВЯНСКИЕ СОЛНЕЧНЫЕ ЧАСЫ. РЕКОМЕНДУЕМ ПЕРЕЗАГРУЗИТЬ СТРАНИЦУ И РАЗРЕШИТЬ ДОСТУП К ВАШИМ ГЕОДАННЫМ!!!');
+                    // mylat = 47.57; mylon = 34.37;
+                }
+                navigator.geolocation.getCurrentPosition(success, error, options);
+            } else {
+                $('#geo').text('Ваш браузер не поддерживает Геолокацию! Для полного доступа ко всей информации откройте страницу в другом браузере!');
+            }
+        }
+
+        // Часы
+        function printTime() {
+            mylat = Number(sessionStorage.getItem('mylat'));
+            mylon = Number(sessionStorage.getItem('mylon'));
+            correctUTC = Number(sessionStorage.getItem('correctUTC'));
+
+            let times = SunCalc.getTimes(new Date("2020-03-20"), mylat, mylon);
+            let timesH = times.solarNoon.getHours();
+            let timesM = times.solarNoon.getMinutes();
+            let timesS = times.solarNoon.getSeconds();
+
+            let d = new Date();
+            let hours1 = d.getHours();
+            let mins1 = d.getMinutes();
+            let secs1 = d.getSeconds();
+            hours1 = hours1 + correctUTC;
+
+            let z = ((hours1 - timesH) * 3600 + (mins1 - timesM) * 60 + secs1 - timesS + 43200) * 34.56;
+            let hours = Math.floor(z / 1296 / 144) + 4;
+            if (hours > 16) { hours = hours - 16 };
+            let mins = Math.floor((z / 1296) % 144);
+            let secs = Math.floor(z % 1296);
+            if (mins < 0) {
+                mins = 144 + mins;
+                secs = 1296 + secs;
+            }
+            
+            // Вывод часов
+            let Hours, Mins, Secs, Vecher, Chas;
+            if (hours < 10) {
+                Hours = `0${hours}`;
+            } else {
+                Hours = hours;
+            }
+            if (mins < 10) {
+                Mins = `00${mins}`;
+            } else if (mins > 9 && mins < 100) {
+                Mins = `0${mins}`;
+            } else {
+                Mins = mins;
+            }
+            if (secs < 10) {
+                Secs = `000${secs}`;
+            } else if (secs > 9 && secs < 100) {
+                Secs = `00${secs}`;
+            } else if (secs > 99 && secs < 1000) {
+                Secs = `0${secs}`;
+            } else {
+                Secs = secs;
+            }
+
+            if (hours == 16 || hours == 1 || hours == 2 || hours == 3) {
+                Vecher = "Вечеръ";
+            } else if (hours == 4 || hours == 5 || hours == 6 || hours == 7) {
+                Vecher = "Ночь";
+            } else if (hours == 8 || hours == 9 || hours == 10 || hours == 11) {
+                Vecher = "Утро";
+            } else {
+                Vecher = "День";
+            }
+
+            switch (hours) {
+                case 16: Chas = "Поудани"; break;
+                case 1: Chas = "Паобѣдъ"; break;
+                case 2: Chas = "Вѣчиръ"; break;
+                case 3: Chas = "Ничь"; break;
+                case 4: Chas = "Полничь"; break;
+                case 5: Chas = "Заутра"; break;
+                case 6: Chas = "Заура"; break;
+                case 7: Chas = "Заурнице"; break;
+                case 8: Chas = "Настя"; break;
+                case 9: Chas = "Сваоръ"; break;
+                case 10: Chas = "Утрось"; break;
+                case 11: Chas = "Поутрось"; break;
+                case 12: Chas = "Обестина"; break;
+                case 13: Chas = "Обесть"; break;
+                case 14: Chas = "Подани"; break;
+                case 15: Chas = "Утдайни"; break;
+            }
+            $('#time').text(Hours + ':' + Mins + ':' + Secs + ' "' + Chas + ', ' + Vecher + '"');
+        }
+        setInterval(printTime, 1000);
+    </script>
+
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>

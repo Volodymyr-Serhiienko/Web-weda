@@ -1,0 +1,23 @@
+﻿@page
+@model WebApplication1.Pages.Sys.Adm.LogModel
+@{
+    ViewData["Title"] = "log.txt";
+    Layout = "~/Pages/Shared/_Layout1.cshtml";
+}
+
+<h3>Содержимое файла log.txt:</h3>
+
+@{
+    try
+    {
+        using (var reader = new StreamReader("log.txt"))
+        {
+            string? line;
+            while ((line = reader.ReadLine()) != null)
+            {
+                <p>@line</p>
+            }
+        }
+    }
+    finally { }
+}

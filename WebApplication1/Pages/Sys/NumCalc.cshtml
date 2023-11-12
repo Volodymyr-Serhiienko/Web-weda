@@ -1,0 +1,32 @@
+﻿@page
+@model WebApplication1.Pages.Sys.NumCalcModel
+@{
+    ViewData["Title"] = "Калькулятор чисел";
+    Layout = "~/Pages/Shared/_Layout1.cshtml";
+}
+
+<form method="post" action="" style=" border: 5px ridge silver; border-radius: 30px; padding: 20px; width:fit-content;">
+    <h4>@HttpContext.Session.GetString("firstname"), введите число от 1 до 9999:</h4>
+    <input type="number" name="number" max="9999" min="1" length="4" />
+    <input type="submit" value=" Рассчитать "  />
+</form>
+<br />
+
+<h3 style="margin-top: 20px;">@Model.Title</h3>
+<h4 style="margin-top: 20px; text-align:center"><b>@Model.SlavNums</b></h4>
+<br />
+
+<ul>
+    @foreach (string s in Model.NumDefs)
+    {
+        <li style="margin-bottom:10px;">@Html.Raw(s)</li>
+    }
+</ul>
+
+@if(Model.IsCalc == true)
+{
+    <h6 style="text-align:center; margin-top: 20px;">
+        <b>Больше информации - можно найти здесь: </b>
+        <a asp-area="" asp-page="/Sys/Bukvitsa">БȢкъвица</a>
+    </h6>
+}

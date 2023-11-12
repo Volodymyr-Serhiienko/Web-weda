@@ -1,0 +1,77 @@
+﻿<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="keywords" content="ведическая мудрость предков астрология нумерология астрологические нумерологические расчеты рассчеты славянский славянская славянское славянские буквица каруна асгардское духовное училище космограмма нотальная натальная карта характеристика дата даты рождения астро процессор астропроцессор звездочтение" />
+    <meta name="description" content="Славянская Ведическая астрология, нумерология, звездочтение, автоматические расчеты, астропроцессор. Буквица, х`Арийская каруна, Славяно-Арийские Веды..." />
+    <meta name="google-site-verification" content="D1JVntNy3tkywZS3Ogyvarsrw0dZws8SYnGbo6VuR_8" />
+    <title>@ViewData["Title"] - Web Weda</title>
+    <link rel="icon" type="image/x-icon" href="~/img/favicon.ico">
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/WebApplication1.styles.css" asp-append-version="true" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap" rel="stylesheet" />
+</head>
+<body>
+    <header>
+        <nav id="menu" class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3" style="position:fixed; width:100%; top:0; transition: top 0.3s; z-index: 2;">
+            <div class="container">
+                <a class="navbar-brand" asp-area="" asp-page="#"><img src="~/img/favicon.ico" height="30" width="30" /> Web Weda</a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
+                        aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
+                    <ul class="navbar-nav flex-grow-1">
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" asp-area="" asp-page="/Index">🏡Главная</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" asp-area="" asp-page="/Contacts">✍Контакты</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" asp-area="" asp-page="/Help">🚨Помощь</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" asp-area="" asp-page="/Login"><span style="color:green">🚪Вход/Регистрация</span></a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+    </header>
+        
+    <header style="margin-top:70px">
+        <div>
+            <img class="small" src="img/header1.png" align="right" />
+            <img class="small" src="img/header1.png" align="left" />
+            <img class="hide" src="img/header2.png" align="right" width="150" />
+            <img class="hide" src="img/header2.png" align="left" width="150" />
+            <h1 class="space">ВѣдическаѦ МȢдрость Прєдковъ</h1>
+        </div>
+        <h2 class="space">Вѣкъ живи - Вѣкъ учись...</h2>
+    </header>
+    
+    <div class="space"> <!-- container -->
+        <main role="main" class="pb-3">
+            @RenderBody()
+        </main>
+    </div>
+
+    <footer class="border-top footer text-muted">
+        <div class="container">
+            © 7532 С.М.З.Х. Владим&#1123;ръ Сергієнко
+        </div>
+    </footer>
+
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+    <script src="~/js/menu_hide.js"></script>
+
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>
